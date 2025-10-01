@@ -50,10 +50,17 @@ const addUser = (user) => {
   users["users_list"].push(user);
   return user;
 };
+
+const removeUserById = (id) => {
+  const user = findUserById(id)
+  if(user !== undefined) {
+    users["users_list"] = users["users_list"].filter((user) => user.id!==id)
+  }
+}
 app.use(express.json());
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
+  const userToAdd = req.body;d
   addUser(userToAdd);
   console.log("user added", userToAdd);
   res.send();
@@ -78,6 +85,17 @@ app.get("/users", (req, res) => {
   } else {
     res.send(users);
   }
+});
+
+app.delete("/users/:id", (req,res) => {
+  const id = req.params["id"];
+  let userToBeDeleted = findUserById(id);
+  if(userToBeDeleted == undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    removeUserById(id);
+  }
+  
 });
 
 app.use(express.json());
