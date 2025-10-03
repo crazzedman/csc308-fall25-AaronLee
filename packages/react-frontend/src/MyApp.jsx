@@ -8,12 +8,7 @@ import Form from "./Form";
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);
-  useEffect(() => {
-  fetchUsers()
-	  .then((res) => res.json())
-	  .then((json) => setCharacters(json["users_list"]))
-	  .catch((error) => { console.log(error); });
-  }, [] );
+  
   function fetchUsers() {
     const promise = fetch("http://localhost:8000/users");
     return promise;
@@ -25,7 +20,7 @@ function MyApp() {
     setCharacters(updated);
   }
   function postUser(person) {
-    const promise = fetch("Http://localhost:8000/users", {
+    const promise = fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,13 +30,20 @@ function MyApp() {
 
     return promise;
   }
+
   function updateList(person) { 
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then(() => setCharacters([characters, person]))
       .catch((error) => {
         console.log(error);
       })
   }
+  useEffect(() => {
+  fetchUsers()
+	  .then((res) => res.json())
+	  .then((json) => setCharacters(json["users_list"]))
+	  .catch((error) => { console.log(error); });
+  }, [] );
   return (
   <div className="container">
     <Table characterData={characters} 
