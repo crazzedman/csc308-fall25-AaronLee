@@ -26,20 +26,31 @@ function MyApp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(person),
-    });
+    })
+    .then((res) => { 
+      if (res.status === 201) { 
+        return res.json(); 
+      }
+      else
+      {
+        throw new Error("error in creating user")
+      }
+    })
 
     return promise;
-  }
+  };
+
+    
 
   function updateList(person) { 
     postUser(person)
-      .then(() => setCharacters([characters, person]))
+      .then(() => setCharacters([...characters, person]))
       .catch((error) => {
         console.log(error);
       })
   }
   useEffect(() => {
-  fetchUsers()
+    fetchUsers()
 	  .then((res) => res.json())
 	  .then((json) => setCharacters(json["users_list"]))
 	  .catch((error) => { console.log(error); });
