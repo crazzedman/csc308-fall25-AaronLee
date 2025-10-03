@@ -9,7 +9,8 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
+  const userToAddNoId = req.body;
+  const userToAdd = generateRandomId(userToAddNoId);
   addUser(userToAdd);
   console.log("user added", userToAdd);
   res.status(201).send(userToAdd);
@@ -62,8 +63,7 @@ app.delete("/users/:id", (req,res) => {
     removeUser(id);
     res.send(remove);
     
-  }
-  
+  } 
 });
 
 
@@ -141,7 +141,10 @@ const addUser = (user) => {
   users["users_list"].push(user);
   return user;
 };
-
+const generateRandomId = (user) => { 
+  user.id = randomThreeLetters()+(Math.floor(Math.random() * 900) + 100); 
+  return user
+};
 const removeUser = (id) => {
   const user = findUserById(id)
   if(user !== undefined) {
@@ -149,6 +152,16 @@ const removeUser = (id) => {
   }
 };
 
+function randomThreeLetters(){
+  const alphabet = "abcedfghijklmnopqrstuvwxyz"
+  let result = "";
+  while(result.length!=3)
+  {
+    const randomLetter = alphabet.charAt(Math.floor(Math.random()*alphabet.length));
+    result+=randomLetter;
+  }
+  return result;
+}
 
 
 
