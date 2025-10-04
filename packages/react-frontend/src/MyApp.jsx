@@ -13,41 +13,41 @@ function MyApp() {
     const promise = fetch("http://localhost:8000/users");
     return promise;
   }
-  function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
-    });
-    setCharacters(updated);
+  function removeOneCharacter(id, index) {
+    const promise = fetch(`http://localhost:8000/users/${id}`, {method: "DELETE"})
+      .then((res) => {
+        console.log("status code: ", res.status)
+        if(res.status === 204)
+        {
+          setCharacters(characters.filter((character, i) => { return i !== index; }));
+        }
+        else if(res.status === 404)
+        {
+          throw new Error("Error in Deleting User");
+        }
+      })
+      .catch((error) => { console.log(error); });
+    return promise;
   }
   function postUser(person) {
     const promise = fetch("http://localhost:8000/users", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json", },
       body: JSON.stringify(person),
     })
     .then((res) => { 
-      if (res.status === 201) { 
-        return res.json(); 
-      }
-      else
-      {
-        throw new Error("error in creating user")
-      }
+      console.log("HTTP status code:", res.status);
+      if (res.status === 201) { return res.json(); }
+      else { throw new Error("error in creating user"); }
     })
-
+    .then((user) => console.log("created user: ", user) );
     return promise;
   };
 
-    
-
   function updateList(person) { 
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
-      .catch((error) => {
-        console.log(error);
-      })
+      .then(() =>  setCharacters([...characters, person]))
+      .catch((error) => { console.log(error);})
   }
   useEffect(() => {
     fetchUsers()
