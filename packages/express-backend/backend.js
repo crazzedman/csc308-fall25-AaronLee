@@ -13,7 +13,7 @@ app.post("/users", (req, res) => {
   const userToAdd = generateRandomId(userToAddNoId);
   addUser(userToAdd);
   console.log("user added", userToAdd);
-  res.status(201).send(userToAdd);
+  res.status(201).json(userToAdd);
 });
 
 app.get("/users/:id", (req, res) => {

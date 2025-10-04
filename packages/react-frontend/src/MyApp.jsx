@@ -40,10 +40,6 @@ function MyApp() {
       console.log("HTTP status code:", res.status);
       if (res.status === 201) { return res.json(); }
       else { throw new Error("error in creating user"); }
-    })
-    .then((user) => {
-      console.log("created user: ", user);
-      return user;
     });
     return promise;
 
@@ -51,7 +47,9 @@ function MyApp() {
 
   function updateList(person) { 
     postUser(person)
-      .then((user) =>  setCharacters((characters)=> [...characters, user]))
+      .then((user) => { 
+        setCharacters((characters)=> [...characters, user]); 
+        console.log("created user: ", user);})
       .catch((error) => { console.log(error);});
   }
   useEffect(() => {
