@@ -60,7 +60,8 @@ app.delete("/users/:id", (req,res) => {
   if(remove == undefined) {
     res.status(404).send("Resource not found.");
   } else {
-    removeUser(id);
+    const userRemoved = removeUser(id);
+    console.log("user removed: ", userRemoved);
     res.status(204).send();
     
   } 
@@ -150,6 +151,7 @@ const removeUser = (id) => {
   if(user !== undefined) {
     users["users_list"] = users["users_list"].filter((user) => user.id!==id)
   }
+  return user;
 };
 
 function randomThreeLetters(){

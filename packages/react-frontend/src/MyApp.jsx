@@ -20,6 +20,7 @@ function MyApp() {
         if(res.status === 204)
         {
           setCharacters(characters.filter((character, i) => { return i !== index; }));
+          
         }
         else if(res.status === 404)
         {
@@ -40,14 +41,18 @@ function MyApp() {
       if (res.status === 201) { return res.json(); }
       else { throw new Error("error in creating user"); }
     })
-    .then((user) => console.log("created user: ", user) );
+    .then((user) => {
+      console.log("created user: ", user);
+      return user;
+    });
     return promise;
+
   };
 
   function updateList(person) { 
     postUser(person)
-      .then(() =>  setCharacters([...characters, person]))
-      .catch((error) => { console.log(error);})
+      .then((user) =>  setCharacters((characters)=> [...characters, user]))
+      .catch((error) => { console.log(error);});
   }
   useEffect(() => {
     fetchUsers()

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm -w packages/react-frontend run dev",
-    "react-frontend": "npm -w packages/react-frontend run dev"
+    "react-frontend": "npm -w packages/react-frontend run dev",
+    "express-backend": "npm -w packages/express-backend run dev"
   },
   "author": "Aaron Lee",
   "license": "ISC",
