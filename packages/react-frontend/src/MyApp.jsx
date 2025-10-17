@@ -13,8 +13,8 @@ function MyApp() {
     const promise = fetch("http://localhost:8000/users");
     return promise;
   }
-  function removeOneCharacter(id, index) {
-    const promise = fetch(`http://localhost:8000/users/${id}`, {method: "DELETE"})
+  function removeOneCharacter(_id, index) {
+    const promise = fetch(`http://localhost:8000/users/${_id}`, {method: "DELETE"})
       .then((res) => {
         console.log("status code: ", res.status)
         if(res.status === 204)

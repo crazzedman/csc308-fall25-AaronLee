@@ -9,8 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/users", async(req, res) => {
-  const userToAddNoId = req.body;
-  const userToAdd = generateRandomId(userToAddNoId);
+  const userToAdd = req.body;
   userServices.addUser(userToAdd)
   .then((createdUser) => {
     console.log("user added", createdUser);
@@ -21,7 +20,7 @@ app.post("/users", async(req, res) => {
 });
 
 app.get("/users/:id", (req, res) => {
-  const id = req.params.id; 
+  const id = req.params._id; 
   userServices.findUserById(id)
   .then((user) => {
     if (!user) {
@@ -46,8 +45,8 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.delete("/users/:id", (req,res) => {
-  const id = req.params["id"];
+app.delete("/users/:_id", (req,res) => {
+  const id = req.params["_id"];
   userServices.deleteUserById(id)
   .then((deletedUser) => {
     if (!deletedUser) {

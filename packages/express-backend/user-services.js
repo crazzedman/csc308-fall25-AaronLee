@@ -49,7 +49,7 @@ function findUserByNameAndJob(name, job) {
 }
 
 function deleteUserById(id) {
-  return User.findByIdAndDelete(id);
+  return userModel.findByIdAndDelete(id);
 };
 
 export default {
